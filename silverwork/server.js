@@ -13,6 +13,7 @@ require("dotenv").config();
 const mailer = require("./mailer.js");
 
 let cachedData = null; // 데이터를 캐싱할 변수
+
 async function loadData() {
   try {
     cachedData = await fetchData();
@@ -24,12 +25,10 @@ async function loadData() {
 
 loadData(); // 서버 시작 시 데이터 로드
 
-// 기본 라우트 설정
 app.get("/", (req, res) => {
   res.send("Hello, Backend!");
 });
 
-// /list 엔드포인트에서 데이터 반환
 app.get("/list", (req, res) => {
   if (cachedData) {
     res.json(cachedData);
@@ -37,24 +36,44 @@ app.get("/list", (req, res) => {
     res.status(500).send("Data not available");
   }
 });
+
 app.post("/sendemail", (req, res) => {
   console.log("Request body:", req.body);
-  const { yourname, youremail, yoursubject, yourmessage } = req.body.data;
+  const { data } = req.body;
 
-  mailer(yourname, youremail, yoursubject, yourmessage).then((response) => {
-    if (response === "success") {
-      res.status(200).json({
-        status: "Success",
-        code: 200,
-        message: "Message Sent Successfully!",
-      });
-    } else {
-      res.json({
+  // Construct the email content from `data`
+  let emailContent = "신청자 정보 \n\n";
+  for (const [key, value] of Object.entries(data)) {
+    emailContent += `${key}: ${value || "N/A"}\n`;
+  }
+
+  // Pass constructed email content directly to the `mailer`
+  const senderName = "Form Submission"; // A default name or a value from `data` if available
+  const senderEmail = "noreply@example.com"; // Default email if you don't have the sender's email
+
+  mailer(senderName, senderEmail, "구직 신청서", emailContent)
+    .then((response) => {
+      if (response === "success") {
+        res.status(200).json({
+          status: "Success",
+          code: 200,
+          message: "Message Sent Successfully!",
+        });
+      } else {
+        res.status(500).json({
+          status: "Fail",
+          code: response.code,
+        });
+      }
+    })
+    .catch((error) => {
+      console.error("Error sending email:", error);
+      res.status(500).json({
         status: "Fail",
-        code: response.code,
+        code: 500,
+        message: "Error sending email",
       });
-    }
-  });
+    });
 });
 
 // 서버 실행
