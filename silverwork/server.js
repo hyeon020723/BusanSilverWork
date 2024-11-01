@@ -9,6 +9,9 @@ const PORT = 1234;
 app.use(cors()); // 모든 도메인에서 접근을 허용
 app.use(express.json());
 
+require("dotenv").config();
+const mailer = require("./mailer.js");
+
 let cachedData = null; // 데이터를 캐싱할 변수
 async function loadData() {
   try {
@@ -35,10 +38,23 @@ app.get("/list", (req, res) => {
   }
 });
 
-app.post("/api/send-email", (req, res) => {
-  const formData = req.body;
-  console.log("Received form data:", formData);
-  res.send("Form data received and logged to the console.");
+app.post("/sendemail", (req, res) => {
+  const { yourname, youremail, yoursubject, yourmessage } = req.body.data;
+
+  mailer(yourname, youremail, yoursubject, yourmessage).then((response) => {
+    if (response === "success") {
+      res.status(200).json({
+        status: "Success",
+        code: 200,
+        message: "Message Sent Successfully!",
+      });
+    } else {
+      res.json({
+        status: "Fail",
+        code: response.code,
+      });
+    }
+  });
 });
 
 // 서버 실행

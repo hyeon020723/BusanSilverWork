@@ -10,6 +10,7 @@
     "cheerio": "^1.0.0",
     "cors": "^2.8.5",
     "express": "^4.21.1",
+    "nodemailer": "^6.9.16",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-kakao-maps-sdk": "^1.1.27",
@@ -44,7 +45,7 @@
   "description": "- 지도 기반 직관적 일자리 위치 확인 기능 - 크롤링을 통한 일자리 필터링 기능",
   "main": "index.js",
   "devDependencies": {
-    "ws": "3.3.2"
+    "ws": "^8.18.0"
   },
   "keywords": [],
   "author": "",
