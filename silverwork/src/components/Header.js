@@ -10,10 +10,10 @@ function Header() {
       <nav>
         <ul style={navStyle}>
           <li>
-            <Link to="/">Main</Link>
+            <Link to="/">List</Link>
           </li>
           <li>
-            <Link to="/options">Options</Link>
+            <Link to="/resume">resume</Link>
           </li>
           <li>
             <Link to="/results">Results</Link>

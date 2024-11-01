@@ -2,10 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Map from "../components/Map";
 
-function MainPage() {
+function ListPage() {
   return (
     <div style={containerStyle}>
-      <Link to="/options">
+      <Link to="/resume">
         <button style={searchButtonStyle}>🔍 검색하기</button>
       </Link>
       <Map />
@@ -47,4 +47,4 @@ searchButtonStyle["&:hover"] = {
   transform: "translateY(-3px)",
 };
 
-export default MainPage;
+export default ListPage;

@@ -2,8 +2,8 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 
-import MainPage from "./pages/MainPage";
-import OptionsPage from "./pages/OptionsPage";
+import ListPage from "./pages/ListPage";
+import ResumePage from "./pages/ResumePage";
 import ResultsPage from "./pages/ResultsPage";
 
 function App() {
@@ -12,8 +12,8 @@ function App() {
       <Header />
 
       <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/options" element={<OptionsPage />} />
+        <Route path="/" element={<ListPage />} />
+        <Route path="/resume" element={<ResumePage />} />
         <Route path="/results" element={<ResultsPage />} />
       </Routes>
     </Router>
