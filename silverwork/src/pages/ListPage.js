@@ -20,7 +20,7 @@ function ListPage() {
 
   return (
     <div style={containerStyle}>
-      <Map />
+      <Map listPageData={data} />
       <div style={tableContainerStyle}>
         <h1 style={headingStyle}>채용 공고</h1>
         <p style={subHeadingStyle}>
@@ -78,7 +78,7 @@ const containerStyle = {
 
 const tableContainerStyle = {
   width: "100%",
-  maxWidth: "800px",
+  maxWidth: "1500px",
   margin: "20px auto",
   padding: "10px",
   borderRadius: "10px",
@@ -104,7 +104,7 @@ const subHeadingStyle = {
 const tableStyle = {
   width: "100%",
   borderCollapse: "collapse",
-  fontSize: "18px",
+  fontSize: "20px",
   marginTop: "10px",
 };
 
@@ -112,7 +112,7 @@ const linkStyle = {
   color: "#1a73e8",
   textDecoration: "none",
   fontWeight: "bold",
-  fontSize: "18px",
+  fontSize: "20px",
 };
 
 const loadingStyle = {
