@@ -93,7 +93,11 @@ function ResumePage() {
 
   const handleSubmit = async () => {
     setStatusMessage("결과를 불러오는 중입니다...");
-
+    console.log("Form Data:", {
+      ...formData,
+      selectedJobCategories,
+      selectedEmploymentTypes,
+    });
     try {
       await axios.post("/api/results", {
         ...formData,
