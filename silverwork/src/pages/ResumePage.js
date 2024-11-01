@@ -75,14 +75,6 @@ function ResumePage() {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleCheckboxChange = (setFunction, selectedOptions, option) => {
-    if (selectedOptions.includes(option)) {
-      setFunction(selectedOptions.filter((item) => item !== option));
-    } else {
-      setFunction([...selectedOptions, option]);
-    }
-  };
-
   const handleJobCategoryChange = (category) => {
     const newCategories = formData.희망업직종.includes(category)
       ? formData.희망업직종.filter((item) => item !== category)
@@ -101,18 +93,71 @@ function ResumePage() {
   };
 
   const handleSubmit = () => {
-    setStatusMessage("결과를 불러오는 중입니다...");
-    const formDataWithSelections = {
-      ...formData,
-      희망업직종: selectedJobCategories.join(", "),
-      고용형태: selectedEmploymentTypes.join(", "),
-    };
-    console.log("Form Data:", formDataWithSelections);
+    // 각 항목에 대한 유효성 검증 조건
+    const validationErrors = [];
 
-    // 데이터 전송 없이 바로 이동
-    navigate("/results", { state: { formData: formDataWithSelections } });
+    if (!formData.이름 || formData.이름.trim() === "") {
+      validationErrors.push("이름");
+    }
+    if (!formData.주민번호 || formData.주민번호.length !== 13) {
+      validationErrors.push("주민번호 (13자리 입력)");
+    }
+    if (!formData.연령 || isNaN(formData.연령) || formData.연령 <= 0) {
+      validationErrors.push("연령 (올바른 나이 입력)");
+    }
+    if (
+      !formData.휴대전화 ||
+      !/^01[0-9]-\d{3,4}-\d{4}$/.test(formData.휴대전화)
+    ) {
+      validationErrors.push("휴대전화 (올바른 형식)");
+    }
+    if (!formData.최종학력 || formData.최종학력.trim() === "") {
+      validationErrors.push("최종학력");
+    }
+    if (
+      !formData.국민기초생활수급여부 ||
+      formData.국민기초생활수급여부.trim() === ""
+    ) {
+      validationErrors.push("국민기초생활수급여부");
+    }
+    if (!formData.주소 || formData.주소.trim() === "") {
+      validationErrors.push("주소");
+    }
+    if (!formData.컴퓨터능력 || formData.컴퓨터능력.trim() === "") {
+      validationErrors.push("컴퓨터 활용 능력");
+    }
+    if (!formData.운전 || formData.운전.trim() === "") {
+      validationErrors.push("운전 여부");
+    }
+    if (formData.희망업직종.length === 0) {
+      validationErrors.push("희망 업직종");
+    }
+    if (!formData.희망급여 || formData.희망급여.trim() === "") {
+      validationErrors.push("희망 급여");
+    }
+    if (!formData.고용형태 || formData.고용형태.trim() === "") {
+      validationErrors.push("고용 형태");
+    }
 
-    setStatusMessage("신청내역을 확인해주세요");
+    // 경고 메시지 출력
+    if (validationErrors.length > 0) {
+      alert(`다음 항목을 확인해 주세요: ${validationErrors.join(", ")}`);
+      setStatusMessage(""); // 경고창 후 상태 메시지 초기화
+    } else {
+      alert("모든 정보를 입력하셨습니다. 작성이 완료되었습니다.");
+      setStatusMessage("결과를 불러오는 중입니다...");
+      const formDataWithSelections = {
+        ...formData,
+        희망업직종: selectedJobCategories.join(", "),
+        고용형태: selectedEmploymentTypes.join(", "),
+      };
+      console.log("Form Data:", formDataWithSelections);
+
+      // 데이터 전송 없이 바로 이동
+      navigate("/results", { state: { formData: formDataWithSelections } });
+
+      setStatusMessage("신청내역을 확인해주세요");
+    }
   };
 
   return (
