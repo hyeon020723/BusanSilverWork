@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import Map from "../components/Map";
 
 function ListPage() {
@@ -21,10 +20,6 @@ function ListPage() {
 
   return (
     <div style={containerStyle}>
-      <Link to="/resume">
-        <button style={searchButtonStyle}>구직 신청하기</button>
-      </Link>
-
       <Map />
       <div style={tableContainerStyle}>
         <h1 style={headingStyle}>채용 공고</h1>
