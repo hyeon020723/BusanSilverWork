@@ -78,9 +78,8 @@ const containerStyle = {
 
 const tableContainerStyle = {
   width: "100%",
-  maxWidth: "1500px",
+  maxWidth: "1700px",
   margin: "20px auto",
-  padding: "10px",
   borderRadius: "10px",
   backgroundColor: "#ffffff",
   boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
