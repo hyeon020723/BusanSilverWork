@@ -1,5 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Header from "./components/Header";
+
 import MainPage from "./pages/MainPage";
 import OptionsPage from "./pages/OptionsPage";
 import ResultsPage from "./pages/ResultsPage";
@@ -7,6 +9,8 @@ import ResultsPage from "./pages/ResultsPage";
 function App() {
   return (
     <Router>
+      <Header />
+
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/options" element={<OptionsPage />} />
