@@ -199,7 +199,7 @@ function ResumePage() {
         />
       </div>
       <div style={optionGroupStyle}>
-        <label style={labelStyle}>PC 활용 능력</label>
+        <label style={labelStyle}>컴퓨터 활용 능력</label>
         <div style={buttonContainerStyle}>
           {pcSkillsOptions.map((option, index) => (
             <button
@@ -354,7 +354,7 @@ const buttonContainerStyle = {
 
 const employmentButtonStyle = {
   padding: "12px 24px",
-  fontSize: "18px",
+  fontSize: "20px",
   borderRadius: "8px",
   border: "1px solid #ccc",
   cursor: "pointer",
@@ -377,7 +377,7 @@ const viewResultsButtonStyle = {
 
 const statusMessageStyle = {
   marginTop: "15px",
-  fontSize: "18px",
+  fontSize: "20px",
   color: "#333",
   textAlign: "center",
 };
@@ -395,7 +395,7 @@ const iconButtonStyle = {
   alignItems: "center",
   justifyContent: "center",
   padding: "10px",
-  fontSize: "16px",
+  fontSize: "20px",
   border: "1px solid #ccc",
   borderRadius: "10px",
   cursor: "pointer",

@@ -17,7 +17,7 @@ function ResultsPage() {
       const response = await axios.post("http://localhost:1234/sendemail", {
         data: formData,
       });
-      alert("이메일 전송 완료: " + response.data);
+      alert("이메일 전송 완료");
     } catch (error) {
       console.error("이메일 전송 오류:", error);
       alert("이메일 전송 중 오류가 발생했습니다.");
@@ -52,30 +52,39 @@ function ResultsPage() {
             borderRadius: "15px",
             boxShadow: "0 3px 6px rgba(0, 0, 0, 0.1)",
           }}>
-          {Object.entries(formData).map(([key, value]) => (
-            <div key={key} style={{ marginBottom: "15px", fontSize: "20px" }}>
-              <strong style={{ color: "#333" }}>{key}: </strong>
-              <span style={{ color: "#555" }}>{value}</span>
-            </div>
-          ))}
-          <button
-            onClick={handleSendEmail}
+          <div>
+            {Object.entries(formData).map(([key, value]) => (
+              <div key={key} style={{ marginBottom: "15px", fontSize: "20px" }}>
+                <strong style={{ color: "#333" }}>{key}: </strong>
+                <span style={{ color: "#555" }}>{value}</span>
+              </div>
+            ))}
+          </div>
+          <div
             style={{
-              display: "block",
-              marginTop: "25px",
-              padding: "15px 30px",
-              backgroundColor: "#4CAF50",
-              color: "#fff",
-              border: "none",
-              borderRadius: "8px",
-              fontSize: "20px",
-              cursor: "pointer",
-              transition: "background-color 0.3s ease",
-            }}
-            onMouseOver={(e) => (e.target.style.backgroundColor = "#45a049")}
-            onMouseOut={(e) => (e.target.style.backgroundColor = "#4CAF50")}>
-            전송하기
-          </button>
+              display: "flex",
+              justifyContent: "center",
+            }}>
+            <button
+              onClick={handleSendEmail}
+              style={{
+                marginTop: "20px",
+                padding: "15px",
+                fontSize: "25px",
+                fontWeight: "bold",
+                backgroundColor: "#4CAF50",
+                color: "white",
+                border: "none",
+                borderRadius: "8px",
+                cursor: "pointer",
+                width: "100%",
+                maxWidth: "300px",
+              }}
+              onMouseOver={(e) => (e.target.style.backgroundColor = "#45a049")}
+              onMouseOut={(e) => (e.target.style.backgroundColor = "#4CAF50")}>
+              전송하기
+            </button>
+          </div>
         </div>
       ) : (
         <p style={{ textAlign: "center", color: "#777", fontSize: "20px" }}>
