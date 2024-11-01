@@ -19,7 +19,7 @@ function ResumePage() {
   const [formData, setFormData] = useState({
     이름: "",
     주민번호: "",
-    연령: "",
+    성별: "",
     휴대전화: "",
     최종학력: "",
     국민기초생활수급여부: "",
@@ -76,10 +76,11 @@ function ResumePage() {
   };
 
   const handleJobCategoryChange = (category) => {
-    const newCategories = formData.희망업직종.includes(category)
-      ? formData.희망업직종.filter((item) => item !== category)
-      : [...formData.희망업직종, category];
+    const newCategories = selectedJobCategories.includes(category)
+      ? selectedJobCategories.filter((item) => item !== category)
+      : [...selectedJobCategories, category];
 
+    setSelectedJobCategories(newCategories);
     setFormData({ ...formData, 희망업직종: newCategories });
   };
 
@@ -101,9 +102,6 @@ function ResumePage() {
     }
     if (!formData.주민번호 || formData.주민번호.length !== 6) {
       validationErrors.push("생년월일 (6자리 입력)");
-    }
-    if (!formData.연령 || isNaN(formData.연령) || formData.연령 <= 0) {
-      validationErrors.push("연령 (올바른 나이 입력)");
     }
     if (
       !formData.휴대전화 ||
@@ -192,16 +190,31 @@ function ResumePage() {
           required
         />
       </div>
+
       <div style={optionGroupStyle}>
-        <label style={labelStyle}>연령</label>
-        <input
-          type="number"
-          name="연령"
-          placeholder="나이"
-          value={formData.연령}
-          onChange={handleInputChange}
-          style={inputStyle}
-        />
+        <label style={labelStyle}>성별</label>
+        <div>
+          <label style={radioLabelStyle}>
+            <input
+              type="radio"
+              name="성별"
+              value="남"
+              onChange={handleInputChange}
+              style={radioInputStyle}
+            />
+            남
+          </label>
+          <label style={radioLabelStyle}>
+            <input
+              type="radio"
+              name="성별"
+              value="여"
+              onChange={handleInputChange}
+              style={radioInputStyle}
+            />
+            여
+          </label>
+        </div>
       </div>
       <div style={optionGroupStyle}>
         <label style={labelStyle}>휴대전화</label>
@@ -232,14 +245,28 @@ function ResumePage() {
           <br />
           수급여부
         </label>
-        <input
-          type="text"
-          name="국민기초생활수급여부"
-          placeholder="수급 여부"
-          value={formData.국민기초생활수급여부}
-          onChange={handleInputChange}
-          style={inputStyle}
-        />
+        <div>
+          <label style={radioLabelStyle}>
+            <input
+              type="radio"
+              name="국민기초생활수급여부"
+              value="예"
+              onChange={handleInputChange}
+              style={radioInputStyle}
+            />
+            예
+          </label>
+          <label style={radioLabelStyle}>
+            <input
+              type="radio"
+              name="국민기초생활수급여부"
+              value="아니오"
+              onChange={handleInputChange}
+              style={radioInputStyle}
+            />
+            아니오
+          </label>
+        </div>
       </div>
       <div style={optionGroupStyle}>
         <label style={labelStyle}>주소</label>
@@ -272,7 +299,7 @@ function ResumePage() {
       </div>
       <div style={optionGroupStyle}>
         <label style={labelStyle}>운전 여부</label>
-        <div style={buttonContainerStyle}>
+        <div style={{ ...buttonContainerStyle, justifyContent: "flex-start" }}>
           {drivingOptions.map((option, index) => (
             <button
               key={index}
@@ -289,7 +316,11 @@ function ResumePage() {
         </div>
       </div>
       <div style={optionGroupStyle}>
-        <label style={labelStyle}>희망 업직종</label>
+        <label style={labelStyle}>
+          희망 업직종
+          <br />
+          (중복선택)
+        </label>
         <div style={iconButtonContainerStyle}>
           {jobCategories.map((category, index) => (
             <button
@@ -305,7 +336,9 @@ function ResumePage() {
                   : "#333",
               }}>
               <img src={category.icon} alt={category.name} style={iconStyle} />
-              {category.name}
+              <span style={{ fontSize: "16px", marginTop: "5px" }}>
+                {category.name}
+              </span>
             </button>
           ))}
         </div>
@@ -466,6 +499,18 @@ const iconStyle = {
   width: "32px",
   height: "32px",
   marginBottom: "5px",
+};
+
+const radioInputStyle = {
+  width: "130px",
+  height: "24px",
+  margin: "10px",
+};
+
+const radioLabelStyle = {
+  fontSize: "25px",
+  fontWeight: "600",
+  margin: "30px",
 };
 
 export default ResumePage;
