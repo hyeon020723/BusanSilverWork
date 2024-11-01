@@ -14,10 +14,9 @@ function ResultsPage() {
 
   const handleSendEmail = async () => {
     try {
-      const response = await axios.post(
-        "http://localhost:1234/sendemail", // 요청할 엔드포인트 URL
-        { formData } // 전송할 데이터
-      );
+      const response = await axios.post("http://localhost:1234/sendemail", {
+        data: formData,
+      });
       alert("이메일 전송 완료: " + response.data);
     } catch (error) {
       console.error("이메일 전송 오류:", error);

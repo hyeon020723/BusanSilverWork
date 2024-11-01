@@ -37,8 +37,8 @@ app.get("/list", (req, res) => {
     res.status(500).send("Data not available");
   }
 });
-
 app.post("/sendemail", (req, res) => {
+  console.log("Request body:", req.body);
   const { yourname, youremail, yoursubject, yourmessage } = req.body.data;
 
   mailer(yourname, youremail, yoursubject, yourmessage).then((response) => {
