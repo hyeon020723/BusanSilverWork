@@ -394,7 +394,7 @@ const labelStyle = {
 
 const inputStyle = {
   width: "100%",
-  maxWidth: "250px",
+  maxWidth: "500px",
   padding: "14px",
   fontSize: "25px",
   borderRadius: "8px",
