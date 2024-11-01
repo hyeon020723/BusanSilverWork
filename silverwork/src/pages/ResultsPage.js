@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 
@@ -6,10 +6,16 @@ function ResultsPage() {
   const { state } = useLocation();
   const { formData } = state || {};
 
+  useEffect(() => {
+    if (formData) {
+      console.log("Received Form Data:", formData);
+    }
+  }, [formData]);
+
   const handleSendEmail = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/send-email",
+        "http://localhost:1234/api/send-email",
         { formData }
       );
       alert("이메일 전송 완료: " + response.data);
@@ -20,32 +26,62 @@ function ResultsPage() {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>신청 결과</h2>
+    <div
+      style={{
+        padding: "30px",
+        fontFamily: "'Arial', sans-serif",
+        maxWidth: "900px",
+        margin: "auto",
+        backgroundColor: "#f2f2f2",
+        borderRadius: "15px",
+        boxShadow: "0 6px 12px rgba(0, 0, 0, 0.1)",
+      }}>
+      <h2
+        style={{
+          textAlign: "center",
+          color: "#333",
+          marginBottom: "25px",
+          fontSize: "24px",
+        }}>
+        신청 결과
+      </h2>
       {formData ? (
-        <div>
-          <p>이름: {formData.name}</p>
-          <p>주민번호: {formData.idNumber}</p>
-          <p>연령: {formData.age}</p>
-          <p>휴대폰: {formData.phone}</p>
-          <p>최종학력: {formData.educationLevel}</p>
-          <p>국민기초생활수급여부: {formData.welfareStatus}</p>
-          <p>주소: {formData.address}</p>
-          <p>PC 활용 능력: {formData.pcSkills}</p>
-          <p>운전 여부: {formData.drivingAbility}</p>
-          <p>기대 임금: {formData.expectedSalary}</p>
+        <div
+          style={{
+            padding: "25px",
+            backgroundColor: "#ffffff",
+            borderRadius: "15px",
+            boxShadow: "0 3px 6px rgba(0, 0, 0, 0.1)",
+          }}>
+          {Object.entries(formData).map(([key, value]) => (
+            <div key={key} style={{ marginBottom: "15px", fontSize: "20px" }}>
+              <strong style={{ color: "#333" }}>{key}: </strong>
+              <span style={{ color: "#555" }}>{value}</span>
+            </div>
+          ))}
           <button
             onClick={handleSendEmail}
             style={{
-              marginTop: "20px",
-              padding: "10px 20px",
-              fontSize: "16px",
-            }}>
+              display: "block",
+              marginTop: "25px",
+              padding: "15px 30px",
+              backgroundColor: "#4CAF50",
+              color: "#fff",
+              border: "none",
+              borderRadius: "8px",
+              fontSize: "20px",
+              cursor: "pointer",
+              transition: "background-color 0.3s ease",
+            }}
+            onMouseOver={(e) => (e.target.style.backgroundColor = "#45a049")}
+            onMouseOut={(e) => (e.target.style.backgroundColor = "#4CAF50")}>
             전송하기
-          </button>{" "}
+          </button>
         </div>
       ) : (
-        <p>데이터를 로드하는 중입니다...</p>
+        <p style={{ textAlign: "center", color: "#777", fontSize: "20px" }}>
+          데이터를 로드하는 중입니다...
+        </p>
       )}
     </div>
   );

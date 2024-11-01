@@ -9,9 +9,6 @@ const PORT = 1234;
 app.use(cors()); // 모든 도메인에서 접근을 허용
 app.use(express.json());
 
-// 미들웨어 설정
-app.use(express.json());
-
 let cachedData = null; // 데이터를 캐싱할 변수
 async function loadData() {
   try {
@@ -36,6 +33,12 @@ app.get("/list", (req, res) => {
   } else {
     res.status(500).send("Data not available");
   }
+});
+
+app.post("/api/send-email", (req, res) => {
+  const formData = req.body;
+  console.log("Received form data:", formData);
+  res.send("Form data received and logged to the console.");
 });
 
 // 서버 실행

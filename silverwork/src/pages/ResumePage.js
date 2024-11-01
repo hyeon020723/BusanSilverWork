@@ -1,7 +1,5 @@
-import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-import axios from "axios";
+import { useState } from "react";
 
 // 아이콘 이미지 파일 import
 import officeIcon from "../icons/사무경영.png";
@@ -19,18 +17,18 @@ import otherIcon from "../icons/기타.png";
 function ResumePage() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    name: "",
-    idNumber: "",
-    age: "",
-    phone: "",
-    educationLevel: "",
-    welfareStatus: "",
-    address: "",
-    pcSkills: "",
-    drivingAbility: "",
-    preferredJobs: ["", "", ""],
-    expectedSalary: "",
-    employmentType: "",
+    이름: "",
+    주민번호: "",
+    연령: "",
+    휴대전화: "",
+    최종학력: "",
+    국민기초생활수급여부: "",
+    주소: "",
+    컴퓨터능력: "",
+    운전: "",
+    희망업직종: ["", "", ""],
+    희망급여: "",
+    고용형태: "",
   });
   const [selectedJobCategories, setSelectedJobCategories] = useState([]);
   const [selectedEmploymentTypes, setSelectedEmploymentTypes] = useState([]);
@@ -77,12 +75,6 @@ function ResumePage() {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handlePreferredJobChange = (index, value) => {
-    const newPreferredJobs = [...formData.preferredJobs];
-    newPreferredJobs[index] = value;
-    setFormData({ ...formData, preferredJobs: newPreferredJobs });
-  };
-
   const handleCheckboxChange = (setFunction, selectedOptions, option) => {
     if (selectedOptions.includes(option)) {
       setFunction(selectedOptions.filter((item) => item !== option));
@@ -91,26 +83,36 @@ function ResumePage() {
     }
   };
 
-  const handleSubmit = async () => {
-    setStatusMessage("결과를 불러오는 중입니다...");
-    console.log("Form Data:", {
-      ...formData,
-      selectedJobCategories,
-      selectedEmploymentTypes,
-    });
-    try {
-      await axios.post("/api/results", {
-        ...formData,
-        selectedJobCategories,
-        selectedEmploymentTypes,
-      });
-      navigate("/results", { state: { formData } });
+  const handleJobCategoryChange = (category) => {
+    const newCategories = formData.희망업직종.includes(category)
+      ? formData.희망업직종.filter((item) => item !== category)
+      : [...formData.희망업직종, category];
 
-      setStatusMessage("신청내역을 확인해주세요");
-    } catch (error) {
-      setStatusMessage("오류가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error sending data to the backend:", error);
-    }
+    setFormData({ ...formData, 희망업직종: newCategories });
+  };
+
+  const handleEmploymentTypeChange = (type) => {
+    const newEmploymentTypes = selectedEmploymentTypes.includes(type)
+      ? selectedEmploymentTypes.filter((item) => item !== type)
+      : [...selectedEmploymentTypes, type];
+
+    setSelectedEmploymentTypes(newEmploymentTypes);
+    setFormData({ ...formData, 고용형태: newEmploymentTypes.join(", ") });
+  };
+
+  const handleSubmit = () => {
+    setStatusMessage("결과를 불러오는 중입니다...");
+    const formDataWithSelections = {
+      ...formData,
+      희망업직종: selectedJobCategories.join(", "),
+      고용형태: selectedEmploymentTypes.join(", "),
+    };
+    console.log("Form Data:", formDataWithSelections);
+
+    // 데이터 전송 없이 바로 이동
+    navigate("/results", { state: { formData: formDataWithSelections } });
+
+    setStatusMessage("신청내역을 확인해주세요");
   };
 
   return (
@@ -120,9 +122,9 @@ function ResumePage() {
         <label style={labelStyle}>이름</label>
         <input
           type="text"
-          name="name"
+          name="이름"
           placeholder="이름을 입력하세요"
-          value={formData.name}
+          value={formData.이름}
           onChange={handleInputChange}
           style={inputStyle}
           required
@@ -132,9 +134,9 @@ function ResumePage() {
         <label style={labelStyle}>주민번호</label>
         <input
           type="text"
-          name="idNumber"
+          name="주민번호"
           placeholder="주민번호를 입력하세요"
-          value={formData.idNumber}
+          value={formData.주민번호}
           onChange={handleInputChange}
           style={inputStyle}
           required
@@ -144,107 +146,107 @@ function ResumePage() {
         <label style={labelStyle}>연령</label>
         <input
           type="number"
-          name="age"
+          name="연령"
           placeholder="나이를 입력하세요"
-          value={formData.age}
+          value={formData.연령}
           onChange={handleInputChange}
           style={inputStyle}
         />
       </div>
       <div style={optionGroupStyle}>
-        <label style={labelStyle}>휴대폰</label>
+        <label style={labelStyle}>휴대전화</label>
         <input
           type="tel"
-          name="phone"
+          name="휴대전화"
           placeholder="휴대폰 번호를 입력하세요"
-          value={formData.phone}
+          value={formData.휴대전화}
           onChange={handleInputChange}
           style={inputStyle}
           required
         />
       </div>
-
       <div style={optionGroupStyle}>
         <label style={labelStyle}>최종학력</label>
         <input
           type="text"
-          name="educationLevel"
+          name="최종학력"
           placeholder="최종학력을 입력하세요"
-          value={formData.educationLevel}
+          value={formData.최종학력}
           onChange={handleInputChange}
           style={inputStyle}
         />
       </div>
-
       <div style={optionGroupStyle}>
         <label style={labelStyle}>국민기초생활수급여부</label>
-        <div style={welfareStatusContainerStyle}>
-          <label style={welfareOptionStyle}>
-            <input
-              type="checkbox"
-              name="welfareStatus"
-              value="유"
-              style={inputCheckboxStyle}
-              checked={formData.welfareStatus === "유"}
-              onChange={() =>
-                setFormData((prevData) => ({
-                  ...prevData,
-                  welfareStatus: prevData.welfareStatus === "유" ? "" : "유",
-                }))
-              }
-            />
-            <span style={labelTextStyle}>유</span>
-          </label>
-          <label style={welfareOptionStyle}>
-            <input
-              type="checkbox"
-              name="welfareStatus"
-              value="무"
-              style={inputCheckboxStyle}
-              checked={formData.welfareStatus === "무"}
-              onChange={() =>
-                setFormData((prevData) => ({
-                  ...prevData,
-                  welfareStatus: prevData.welfareStatus === "무" ? "" : "무",
-                }))
-              }
-            />
-            <span style={labelTextStyle}>무</span>
-          </label>
-        </div>
+        <input
+          type="text"
+          name="국민기초생활수급여부"
+          placeholder="수급 여부를 입력하세요"
+          value={formData.국민기초생활수급여부}
+          onChange={handleInputChange}
+          style={inputStyle}
+        />
       </div>
-
       <div style={optionGroupStyle}>
         <label style={labelStyle}>주소</label>
         <input
           type="text"
-          name="address"
+          name="주소"
           placeholder="주소를 입력하세요"
-          value={formData.address}
+          value={formData.주소}
           onChange={handleInputChange}
           style={inputStyle}
         />
       </div>
-      {/* 업직종 선택 */}
       <div style={optionGroupStyle}>
-        <label style={labelStyle}>업직종</label>
+        <label style={labelStyle}>PC 활용 능력</label>
+        <div style={buttonContainerStyle}>
+          {pcSkillsOptions.map((option, index) => (
+            <button
+              key={index}
+              onClick={() => setFormData({ ...formData, 컴퓨터능력: option })}
+              style={{
+                ...employmentButtonStyle,
+                backgroundColor:
+                  formData.컴퓨터능력 === option ? "#4CAF50" : "#e0e0e0",
+                color: formData.컴퓨터능력 === option ? "white" : "#333",
+              }}>
+              {option}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div style={optionGroupStyle}>
+        <label style={labelStyle}>운전 여부</label>
+        <div style={buttonContainerStyle}>
+          {drivingOptions.map((option, index) => (
+            <button
+              key={index}
+              onClick={() => setFormData({ ...formData, 운전: option })}
+              style={{
+                ...employmentButtonStyle,
+                backgroundColor:
+                  formData.운전 === option ? "#4CAF50" : "#e0e0e0",
+                color: formData.운전 === option ? "white" : "#333",
+              }}>
+              {option}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div style={optionGroupStyle}>
+        <label style={labelStyle}>희망 업직종</label>
         <div style={iconButtonContainerStyle}>
           {jobCategories.map((category, index) => (
             <button
               key={index}
-              onClick={() =>
-                handleCheckboxChange(
-                  setSelectedJobCategories,
-                  selectedJobCategories,
-                  category.name
-                )
-              }
+              onClick={() => handleJobCategoryChange(category.name)}
               style={{
                 ...iconButtonStyle,
-                backgroundColor: selectedJobCategories.includes(category.name)
+                backgroundColor: formData.희망업직종.includes(category.name)
                   ? "#4CAF50"
                   : "#f1f1f1",
-                color: selectedJobCategories.includes(category.name)
+                color: formData.희망업직종.includes(category.name)
                   ? "white"
                   : "#333",
               }}>
@@ -254,108 +256,51 @@ function ResumePage() {
           ))}
         </div>
       </div>
-      {/* 고용형태 선택 */}
       <div style={optionGroupStyle}>
-        <label style={labelStyle}>고용형태</label>
+        <label style={labelStyle}>희망 급여</label>
+        <div style={buttonContainerStyle}>
+          {salaryOptions.map((option, index) => (
+            <button
+              key={index}
+              onClick={() => setFormData({ ...formData, 희망급여: option })}
+              style={{
+                ...employmentButtonStyle,
+                backgroundColor:
+                  formData.희망급여 === option ? "#4CAF50" : "#e0e0e0",
+                color: formData.희망급여 === option ? "white" : "#333",
+              }}>
+              {option}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div style={optionGroupStyle}>
+        <label style={labelStyle}>고용 형태</label>
         <div style={buttonContainerStyle}>
           {employmentOptions.map((type, index) => (
             <button
               key={index}
-              onClick={() =>
-                handleCheckboxChange(
-                  setSelectedEmploymentTypes,
-                  selectedEmploymentTypes,
-                  type
-                )
-              }
+              onClick={() => handleEmploymentTypeChange(type)}
               style={{
                 ...employmentButtonStyle,
-                backgroundColor: selectedEmploymentTypes.includes(type)
-                  ? "#4CAF50"
-                  : "#e0e0e0",
-                color: selectedEmploymentTypes.includes(type)
-                  ? "white"
-                  : "#333",
+                backgroundColor:
+                  formData.고용형태 === type ? "#4CAF50" : "#e0e0e0",
+                color: formData.고용형태 === type ? "white" : "#333",
               }}>
               {type}
             </button>
           ))}
         </div>
       </div>
-
-      {/* PC Skill Options */}
-      <div style={optionGroupStyle}>
-        <label style={labelStyle}>PC 활용 능력</label>
-        <div style={buttonContainerStyle}>
-          {pcSkillsOptions.map((option, index) => (
-            <button
-              key={index}
-              onClick={() => setFormData({ ...formData, pcSkills: option })}
-              style={{
-                ...employmentButtonStyle,
-                backgroundColor:
-                  formData.pcSkills === option ? "#4CAF50" : "#e0e0e0",
-                color: formData.pcSkills === option ? "white" : "#333",
-              }}>
-              {option}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div style={optionGroupStyle}>
-        <label style={labelStyle}>운전 여부</label>
-        <div style={buttonContainerStyle}>
-          {drivingOptions.map((option, index) => (
-            <button
-              key={index}
-              onClick={() =>
-                setFormData({ ...formData, drivingAbility: option })
-              }
-              style={{
-                ...employmentButtonStyle,
-                backgroundColor:
-                  formData.drivingAbility === option ? "#4CAF50" : "#e0e0e0",
-                color: formData.drivingAbility === option ? "white" : "#333",
-              }}>
-              {option}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div style={optionGroupStyle}>
-        <label style={labelStyle}>기대 임금</label>
-        <div style={buttonContainerStyle}>
-          {salaryOptions.map((option, index) => (
-            <button
-              key={index}
-              onClick={() =>
-                setFormData({ ...formData, expectedSalary: option })
-              }
-              style={{
-                ...employmentButtonStyle,
-                backgroundColor:
-                  formData.expectedSalary === option ? "#4CAF50" : "#e0e0e0",
-                color: formData.expectedSalary === option ? "white" : "#333",
-              }}>
-              {option}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* 신청하기 버튼 */}
       <button onClick={handleSubmit} style={viewResultsButtonStyle}>
         신청하기
       </button>
-      {/* 상태 메시지 */}
       {statusMessage && <p style={statusMessageStyle}>{statusMessage}</p>}
     </div>
   );
 }
 
-//style
+// 스타일 정의
 const containerStyle = {
   display: "flex",
   flexDirection: "column",
@@ -400,64 +345,6 @@ const inputStyle = {
   boxSizing: "border-box",
 };
 
-const iconButtonContainerStyle = {
-  display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(100px, 1fr))", // Slightly larger minimum width for better legibility
-  gap: "16px", // Increase gap for clearer spacing between items
-  alignItems: "center", // Center align buttons vertically in their grid cells
-  justifyContent: "center", // Center the grid within its container
-  padding: "16px", // Add padding around the grid to create space from surrounding content
-  width: "100%", // Make the grid responsive to its container's width
-  boxSizing: "border-box", // Ensure padding doesn't affect overall width
-};
-
-const welfareStatusContainerStyle = {
-  display: "flex",
-  gap: "20px", // Clear space between the "유" and "무" options
-  fontSize: "30px", // Slightly increase font size for readability
-  alignItems: "center", // Align items in the center for a balanced layout
-  marginTop: "10px",
-};
-
-const welfareOptionStyle = {
-  display: "flex",
-  alignItems: "center",
-  gap: "8px", // Space between checkbox and label text
-  cursor: "pointer", // Pointer cursor for clickable elements
-};
-
-const inputCheckboxStyle = {
-  width: "20px", // Increase size for easier clicking
-  height: "20px",
-};
-
-const labelTextStyle = {
-  fontSize: "25px",
-  color: "#333", // Dark color for high contrast and readability
-  fontWeight: "bold",
-};
-
-const iconButtonStyle = {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  padding: "10px",
-  fontSize: "16px",
-  border: "1px solid #ccc",
-  borderRadius: "10px",
-  cursor: "pointer",
-  flexDirection: "column",
-  width: "100px",
-  height: "100px",
-  transition: "background-color 0.2s",
-};
-
-const iconStyle = {
-  width: "32px",
-  height: "32px",
-  marginBottom: "5px",
-};
-
 const buttonContainerStyle = {
   display: "flex",
   flexWrap: "wrap",
@@ -495,34 +382,33 @@ const statusMessageStyle = {
   textAlign: "center",
 };
 
-// Media Queries for Responsive Design
-const responsiveStyles = `
-@media (max-width: 768px) {
-  .container {
-    padding: 15px;
-    font-size: 1rem;
-  }
-  .title {
-    font-size: 24px;
-  }
-  .label {
-    font-size: 18px;
-  }
-  .input {
-    font-size: 16px;
-  }
-  .iconButton {
-    width: 80px;
-    height: 80px;
-  }
-  .employmentButton {
-    font-size: 16px;
-    padding: 10px 15px;
-  }
-  .viewResultsButton {
-    font-size: 18px;
-  }
-}
-`;
+const iconButtonContainerStyle = {
+  display: "grid",
+  gridTemplateColumns: "repeat(auto-fit, minmax(100px, 1fr))",
+  gap: "16px",
+  padding: "16px",
+  width: "100%",
+};
+
+const iconButtonStyle = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  padding: "10px",
+  fontSize: "16px",
+  border: "1px solid #ccc",
+  borderRadius: "10px",
+  cursor: "pointer",
+  flexDirection: "column",
+  width: "100px",
+  height: "100px",
+  transition: "background-color 0.2s",
+};
+
+const iconStyle = {
+  width: "32px",
+  height: "32px",
+  marginBottom: "5px",
+};
 
 export default ResumePage;
