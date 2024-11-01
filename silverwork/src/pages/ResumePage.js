@@ -99,7 +99,7 @@ function ResumePage() {
     if (!formData.이름 || formData.이름.trim() === "") {
       validationErrors.push("이름");
     }
-    if (!formData.주민번호 || formData.주민번호.length !== 13) {
+    if (!formData.주민번호 || formData.주민번호.length !== 6) {
       validationErrors.push("생년월일 (6자리 입력)");
     }
     if (!formData.연령 || isNaN(formData.연령) || formData.연령 <= 0) {
