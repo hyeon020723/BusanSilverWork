@@ -117,7 +117,12 @@ function ResumePage() {
 
   return (
     <div style={containerStyle}>
-      <h2 style={titleStyle}>구직신청</h2>
+      <h2 style={titleStyle}>
+        부산광역시 장노년일자리지원센터
+        <br />
+        담당자에게 전송될 구직 신청 내용입니다.
+      </h2>
+
       <div style={optionGroupStyle}>
         <label style={labelStyle}>이름</label>
         <input
@@ -293,7 +298,7 @@ function ResumePage() {
         </div>
       </div>
       <button onClick={handleSubmit} style={viewResultsButtonStyle}>
-        신청하기
+        작성완료
       </button>
       {statusMessage && <p style={statusMessageStyle}>{statusMessage}</p>}
     </div>
@@ -364,12 +369,12 @@ const employmentButtonStyle = {
 const viewResultsButtonStyle = {
   marginTop: "20px",
   padding: "15px",
-  fontSize: "20px",
+  fontSize: "22px",
   fontWeight: "bold",
   backgroundColor: "#4CAF50",
   color: "white",
   border: "none",
-  borderRadius: "8px",
+  borderRadius: "50px",
   cursor: "pointer",
   width: "100%",
   maxWidth: "300px",

@@ -12,16 +12,9 @@ function Header() {
           style={{ width: "120px", height: "100px", marginRight: "10px" }}
         />
       </Link>
-      <nav>
-        <ul style={navStyle}>
-          <li>
-            <Link to="/resume">resume</Link>
-          </li>
-          <li>
-            <Link to="/results">Results</Link>
-          </li>
-        </ul>
-      </nav>
+      <Link to="/resume">
+        <button style={searchButtonStyle}>구직 신청하기</button>
+      </Link>
     </header>
   );
 }
@@ -39,6 +32,19 @@ const navStyle = {
   listStyle: "none",
   display: "flex",
   gap: "15px",
+};
+
+const searchButtonStyle = {
+  padding: "15px 50px",
+  fontSize: "22px",
+  fontWeight: "bold",
+  color: "#fff",
+  backgroundColor: "#4CAF50",
+  border: "none",
+  borderRadius: "50px",
+  cursor: "pointer",
+  transition: "background-color 0.3s, transform 0.2s",
+  margin: "10px",
 };
 
 export default Header;
