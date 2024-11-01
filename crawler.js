@@ -1,5 +1,7 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
+const express = require('express');
+const app = express();
 
 class Editor{
     constructor(response){
@@ -91,5 +93,11 @@ async function getUser() {
     }
     return Alldata;
 }
-getUser().then((data)=> console.log(data)
-);
+
+
+app.listen(8080,function(){
+    console.log('listening on 8080');
+});
+app.get("/",function(req,res){
+    getUser().then((data)=> res.send(data))
+});
