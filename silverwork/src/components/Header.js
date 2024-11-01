@@ -1,17 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Logo from "../icons/logo.png";
 
 function Header() {
   return (
     <header style={headerStyle}>
       <Link to="/">
-        <h1>노인 일자리 정보</h1>
+        <img
+          src={Logo}
+          alt="Logo"
+          style={{ width: "120px", height: "100px", marginRight: "10px" }}
+        />
       </Link>
       <nav>
         <ul style={navStyle}>
-          <li>
-            <Link to="/">List</Link>
-          </li>
           <li>
             <Link to="/resume">resume</Link>
           </li>
