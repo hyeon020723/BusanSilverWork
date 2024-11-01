@@ -105,7 +105,9 @@ const tableStyle = {
   width: "100%",
   borderCollapse: "collapse",
   fontSize: "20px",
-  marginTop: "10px",
+  marginTop: "40px",
+  borderSpacing: "40px 50px",
+  borderCollapse: "separate",
 };
 
 const linkStyle = {
@@ -113,6 +115,7 @@ const linkStyle = {
   textDecoration: "none",
   fontWeight: "bold",
   fontSize: "20px",
+  marginTop: "40px",
 };
 
 const loadingStyle = {

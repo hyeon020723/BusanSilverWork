@@ -100,7 +100,7 @@ function ResumePage() {
       validationErrors.push("이름");
     }
     if (!formData.주민번호 || formData.주민번호.length !== 13) {
-      validationErrors.push("주민번호 (13자리 입력)");
+      validationErrors.push("생년월일 (6자리 입력)");
     }
     if (!formData.연령 || isNaN(formData.연령) || formData.연령 <= 0) {
       validationErrors.push("연령 (올바른 나이 입력)");
@@ -173,7 +173,7 @@ function ResumePage() {
         <input
           type="text"
           name="이름"
-          placeholder="이름을 입력하세요"
+          placeholder="이름"
           value={formData.이름}
           onChange={handleInputChange}
           style={inputStyle}
@@ -181,11 +181,11 @@ function ResumePage() {
         />
       </div>
       <div style={optionGroupStyle}>
-        <label style={labelStyle}>주민번호</label>
+        <label style={labelStyle}>생년월일</label>
         <input
           type="text"
           name="주민번호"
-          placeholder="주민번호를 입력하세요"
+          placeholder="생년월일(6자리)"
           value={formData.주민번호}
           onChange={handleInputChange}
           style={inputStyle}
@@ -197,7 +197,7 @@ function ResumePage() {
         <input
           type="number"
           name="연령"
-          placeholder="나이를 입력하세요"
+          placeholder="나이"
           value={formData.연령}
           onChange={handleInputChange}
           style={inputStyle}
@@ -208,7 +208,7 @@ function ResumePage() {
         <input
           type="tel"
           name="휴대전화"
-          placeholder="휴대폰 번호를 입력하세요"
+          placeholder="휴대폰 번호"
           value={formData.휴대전화}
           onChange={handleInputChange}
           style={inputStyle}
@@ -220,18 +220,22 @@ function ResumePage() {
         <input
           type="text"
           name="최종학력"
-          placeholder="최종학력을 입력하세요"
+          placeholder="최종학력"
           value={formData.최종학력}
           onChange={handleInputChange}
           style={inputStyle}
         />
       </div>
       <div style={optionGroupStyle}>
-        <label style={labelStyle}>국민기초생활수급여부</label>
+        <label style={labelStyle}>
+          국민기초생활
+          <br />
+          수급여부
+        </label>
         <input
           type="text"
           name="국민기초생활수급여부"
-          placeholder="수급 여부를 입력하세요"
+          placeholder="수급 여부"
           value={formData.국민기초생활수급여부}
           onChange={handleInputChange}
           style={inputStyle}
@@ -242,7 +246,7 @@ function ResumePage() {
         <input
           type="text"
           name="주소"
-          placeholder="주소를 입력하세요"
+          placeholder="주소"
           value={formData.주소}
           onChange={handleInputChange}
           style={inputStyle}
@@ -372,15 +376,17 @@ const titleStyle = {
 };
 
 const optionGroupStyle = {
-  marginBottom: "20px",
+  margin: "20px 20px",
   display: "flex",
-  flexDirection: "column",
+  flexDirection: "row",
   alignItems: "flex-start",
   width: "100%",
+  justifyContent: "center",
 };
 
 const labelStyle = {
   fontSize: "25px",
+  width: "200px",
   marginBottom: "8px",
   fontWeight: "600",
   color: "#555",
@@ -388,6 +394,7 @@ const labelStyle = {
 
 const inputStyle = {
   width: "100%",
+  maxWidth: "250px",
   padding: "14px",
   fontSize: "25px",
   borderRadius: "8px",

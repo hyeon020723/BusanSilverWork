@@ -115,7 +115,7 @@ function Map(listPageData) {
 // 스타일 정의
 const mapContainerStyle = {
   width: "100%",
-  height: "300px",
+  height: "500px",
   borderRadius: "15px", // 모서리를 둥글게 설정
   boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)", // 그림자 효과 추가
   overflow: "hidden", // 둥근 모서리 밖으로 나가는 부분 숨김
